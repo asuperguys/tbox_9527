@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>车载嵌入式求职冲刺营</title>
+<meta name="description" content="嵌入式软件工程师求职复习网站：C 语言、操作系统、网络、车载协议、项目话术、自测题库、打卡追踪">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🚗</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">🚗</div>
+      <div>
+        <div class="brand-title">求职冲刺营</div>
+        <div class="brand-sub">嵌入式 / 车联网 · 求职冲刺</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav" aria-label="站点导航"></nav>
+    <div class="sidebar-footer">
+      <div>v1.0 · 2026-08</div>
+      <div class="tiny">目标：国庆前后投递 · 每天 1 小时</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="iconbtn" id="menuBtn" aria-label="打开导航">☰</button>
+      <div class="searchbox">
+        <span class="searchicon">⌕</span>
+        <input id="searchInput" type="search" placeholder="搜索知识点 / 项目 / 面试题…（按 / 聚焦）" autocomplete="off">
+        <div class="searchdrop" id="searchDrop" hidden></div>
+      </div>
+      <button class="iconbtn" id="themeBtn" aria-label="切换主题">🌙</button>
+    </header>
+
+    <div class="contentwrap">
+      <div class="breadcrumb" id="breadcrumb"></div>
+      <article class="content" id="content"></article>
+      <aside class="toc" id="toc" aria-label="本页目录"></aside>
+      <div class="pagination" id="pagination"></div>
+      <footer class="footer">
+        本地复习站点 · 内容可离线阅读 · 打卡进度保存在浏览器本地<br>
+        想改内容：直接编辑 <code>content/*.md</code> 后重新推送即可
+      </footer>
+    </div>
+  </main>
+</div>
+<div class="overlay" id="overlay" hidden></div>
+<noscript><div style="padding:40px;font-family:sans-serif">本站需要启用 JavaScript 才能加载内容。</div></noscript>
+<script src="assets/app.js"></script>
+</body>
+</html>
