@@ -20,8 +20,15 @@ tbox-prep-site/
 │   ├── 04-net.md           # 网络与 MQTT
 │   ├── 12-embedded.md      # 嵌入式基础（总线/中断/外设/ARM/BootLoader）
 │   ├── 05-auto.md          # 车载协议与 OTA
+│   ├── 14-ota.md           # ★ OTA 专项（学习 + 复习：分区/回滚/安全/刷写/排查/自测题）
 │   ├── 06-algo.md          # 算法与手写题
 │   ├── 07-projects.md      # 项目故事库
+│   ├── proj-pcc.md         # 项目复习：预见性巡航 PCC
+│   ├── proj-gnss.md        # 项目复习：GNSS 固件升级
+│   ├── proj-adas.md        # 项目复习：主动安全系统
+│   ├── proj-bus.md         # 项目复习：云公交一体机
+│   ├── proj-market.md      # 项目复习：市场问题分析
+│   ├── proj-ota.md         # 项目复习：OTA 链路排查
 │   ├── 08-interview.md     # 自测题库
 │   ├── 09-resume.md        # 优化版简历
 │   └── 10-checkin.md       # 每日打卡表

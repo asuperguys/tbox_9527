@@ -11,6 +11,9 @@
       { id: '00-overview', title: '总览与时间线' },
       { id: '01-target',   title: '目标定位与公司' }
     ]},
+    { group: 'OTA 专项', items: [
+      { id: '14-ota', title: 'OTA 学习与复习' }
+    ]},
     { group: 'C / C++', items: [
       { id: '02-c',     title: 'C 语言与数据结构' },
       { id: '13-memory', title: 'C 语言内存分布与管理' },
@@ -33,6 +36,14 @@
       { id: '07-projects', title: '项目故事库' },
       { id: '08-interview', title: '自测题库' },
       { id: '09-resume',    title: '优化版简历' }
+    ]},
+    { group: '项目复习', items: [
+      { id: 'proj-pcc',    title: '① 预见性巡航 PCC ★' },
+      { id: 'proj-gnss',   title: '② GNSS 固件升级' },
+      { id: 'proj-adas',   title: '③ 主动安全系统' },
+      { id: 'proj-bus',    title: '④ 云公交一体机' },
+      { id: 'proj-market', title: '⑤ 市场问题分析' },
+      { id: 'proj-ota',    title: '⑥ OTA 链路排查' }
     ]},
     { group: '追踪', items: [
       { id: '10-checkin', title: '每日打卡表' }
@@ -60,6 +71,7 @@
     s = esc(s);
     s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+    s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>');
     return s;
   }
   function mdHash(s) {
