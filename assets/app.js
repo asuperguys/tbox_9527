@@ -5,82 +5,80 @@
 (function () {
   'use strict';
 
-  /* ---------- 导航配置 ---------- */
+  /* ---------- 导航配置 ----------
+   * 组织原则：按"用途"分 5 大类 —— 面试题集中、项目集中。
+   * 大分组可折叠（collapsed: true 表示默认折叠），折叠状态记 localStorage。
+   * 天迈专项 29 篇按内容性质再分子分组，避免平铺 29 项。
+   */
   const NAV = [
-    { group: '概览', items: [
+    { group: '🏠 总览与规划', items: [
       { id: '00-overview', title: '总览与时间线' },
-      { id: '01-target',   title: '目标定位与公司' }
+      { id: '01-target',   title: '目标定位与公司' },
+      { id: '10-checkin',  title: '每日打卡表' },
+      { id: 'mindmap',     title: '🧠 思维导图' }
     ]},
-    { group: 'OTA 专项', items: [
-      { id: '14-ota', title: 'OTA 学习与复习' }
-    ]},
-    { group: 'C / C++', items: [
-      { id: '02-c',     title: 'C 语言与数据结构' },
-      { id: '13-memory', title: 'C 语言内存分布与管理' },
-      { id: '11-cpp',   title: 'C++ 面试题' }
-    ]},
-    { group: '操作系统', items: [
-      { id: '03-os',    title: '操作系统与 Linux' }
-    ]},
-    { group: '计算机网络', items: [
-      { id: '04-net',   title: '网络与 MQTT' }
-    ]},
-    { group: '嵌入式', items: [
+    { group: '📚 面试题 · 八股', items: [
+      { id: '02-c',        title: 'C 语言与数据结构' },
+      { id: '13-memory',   title: 'C 语言内存分布' },
+      { id: '11-cpp',      title: 'C++ 面试题' },
+      { id: '03-os',       title: '操作系统与 Linux' },
+      { id: '04-net',      title: '网络与 MQTT' },
       { id: '12-embedded', title: '嵌入式基础' },
-      { id: '05-auto',  title: '车载协议与 OTA' }
+      { id: '05-auto',     title: '车载协议与 OTA' },
+      { id: '14-ota',      title: 'OTA 专项' },
+      { id: '06-algo',     title: '算法与手写题' },
+      { id: '08-interview', title: '自测题库与面试话术' }
     ]},
-    { group: '笔试算法', items: [
-      { id: '06-algo',  title: '算法与手写题' }
+    { group: '🚗 项目库', items: [
+      { id: '07-projects', title: '项目故事库（总入口）' },
+      { id: 'proj-pcc',    title: '预见性巡航 PCC' },
+      { id: 'proj-gnss',   title: 'GNSS 固件升级' },
+      { id: 'proj-adas',   title: '主动安全系统' },
+      { id: 'proj-bus',    title: '云公交一体机' },
+      { id: 'proj-market', title: '市场问题分析' },
+      { id: 'proj-ota',    title: 'OTA 链路排查' }
     ]},
-    { group: '面试', items: [
-      { id: '07-projects', title: '项目故事库' },
-      { id: '08-interview', title: '自测题库' },
-      { id: '09-resume',    title: '优化版简历' }
+    { group: '🎯 天迈主动安全专项', collapsed: true, subs: [
+      { sub: '项目深挖', items: [
+        { id: 'tm-01', title: '01 项目全景与架构' },
+        { id: 'tm-02', title: '02 外部数据与三急' },
+        { id: 'tm-03', title: '03 参数与配置' },
+        { id: 'tm-04', title: '04 算法抽象层' },
+        { id: 'tm-05', title: '05 协议层' },
+        { id: 'tm-06', title: '06 报警链路与主控' },
+        { id: 'tm-07', title: '07 角色故事与贡献' },
+        { id: 'tm-09', title: '09 优化亮点清单' },
+        { id: 'tm-11', title: '11 CAN 信号级重构' },
+        { id: 'tm-14', title: '14 取舍复盘' },
+        { id: 'tm-16', title: '16 面试必画图' },
+        { id: 'tm-21', title: '21 三急物理模型' },
+        { id: 'tm-22', title: '22 整车 CAN 方案' }
+      ]},
+      { sub: '面试问答与演练', items: [
+        { id: 'tm-08', title: '08 高频问答库' },
+        { id: 'tm-10', title: '10 模拟演练素材' },
+        { id: 'tm-12', title: '12 速记卡片' },
+        { id: 'tm-15', title: '15 面试官评分卡' },
+        { id: 'tm-17', title: '17 代码阅读路线图' },
+        { id: 'tm-18', title: '18 软问题深挖' },
+        { id: 'tm-19', title: '19 完整模拟卷' },
+        { id: 'tm-20', title: '20 外围知识扩展' },
+        { id: 'tm-25', title: '25 追问脚本' },
+        { id: 'tm-28', title: '28 示范面试答案' }
+      ]},
+      { sub: '简历素材', items: [
+        { id: 'tm-13', title: '13 简历项目描述' },
+        { id: 'tm-26', title: '26 简历采集表' }
+      ]},
+      { sub: '行动管理', items: [
+        { id: 'tm-00', title: '00 学习路线图' },
+        { id: 'tm-23', title: '23 冲刺行动卡' },
+        { id: 'tm-24', title: '24 进度追踪表' },
+        { id: 'tm-27', title: '27 最终交付总览' }
+      ]}
     ]},
-    { group: '项目复习', items: [
-      { id: 'proj-pcc',    title: '① 预见性巡航 PCC ★' },
-      { id: 'proj-gnss',   title: '② GNSS 固件升级' },
-      { id: 'proj-adas',   title: '③ 主动安全系统' },
-      { id: 'proj-bus',    title: '④ 云公交一体机' },
-      { id: 'proj-market', title: '⑤ 市场问题分析' },
-      { id: 'proj-ota',    title: '⑥ OTA 链路排查' }
-    ]},
-    { group: '天迈主动安全 · 面试素材', items: [
-      { id: 'tm-00', title: '00 学习路线图' },
-      { id: 'tm-01', title: '01 项目全景与架构' },
-      { id: 'tm-02', title: '02 外部数据与三急' },
-      { id: 'tm-03', title: '03 参数与配置' },
-      { id: 'tm-04', title: '04 算法抽象层' },
-      { id: 'tm-05', title: '05 协议层' },
-      { id: 'tm-06', title: '06 报警链路与主控' },
-      { id: 'tm-07', title: '07 角色故事与贡献' },
-      { id: 'tm-08', title: '08 高频问答库' },
-      { id: 'tm-09', title: '09 优化亮点清单' },
-      { id: 'tm-10', title: '10 模拟演练素材' },
-      { id: 'tm-11', title: '11 CAN信号级重构' },
-      { id: 'tm-12', title: '12 速记卡片' },
-      { id: 'tm-13', title: '13 简历项目描述' },
-      { id: 'tm-14', title: '14 取舍复盘' },
-      { id: 'tm-15', title: '15 面试官评分卡' },
-      { id: 'tm-16', title: '16 面试必画图' },
-      { id: 'tm-17', title: '17 代码阅读路线图' },
-      { id: 'tm-18', title: '18 软问题深挖' },
-      { id: 'tm-19', title: '19 完整模拟卷' },
-      { id: 'tm-20', title: '20 外围知识扩展' },
-      { id: 'tm-21', title: '21 三急物理模型' },
-      { id: 'tm-22', title: '22 整车CAN方案' },
-      { id: 'tm-23', title: '23 冲刺行动卡' },
-      { id: 'tm-24', title: '24 进度追踪表' },
-      { id: 'tm-25', title: '25 追问脚本' },
-      { id: 'tm-26', title: '26 简历采集表' },
-      { id: 'tm-27', title: '27 最终交付总览' },
-      { id: 'tm-28', title: '28 示范面试答案' }
-    ]},
-    { group: '追踪', items: [
-      { id: '10-checkin', title: '每日打卡表' }
-    ]},
-    { group: '记忆工具', items: [
-      { id: 'mindmap', title: '🧠 思维导图' }
+    { group: '📄 简历', items: [
+      { id: '09-resume', title: '优化版简历' }
     ]}
   ];
   const FLAT = [];
@@ -297,16 +295,45 @@
   }
 
   /* ---------- 侧边栏 ---------- */
+  function navItemHtml(it) {
+    return '<a class="nav-item" data-id="' + it.id + '" href="#/' + it.id + '">' + esc(it.title) + '</a>';
+  }
   function renderNav() {
     let html = '';
     NAV.forEach(g => {
-      html += '<div class="nav-group"><div class="nav-group-title">' + esc(g.group) + '</div>';
-      g.items.forEach(it => {
-        html += '<a class="nav-item" data-id="' + it.id + '" href="#/' + it.id + '">' + esc(it.title) + '</a>';
-      });
-      html += '</div>';
+      const key = 'tbox-nav:' + g.group;
+      let collapsed = !!g.collapsed;
+      try {
+        const saved = localStorage.getItem(key);
+        if (saved !== null) collapsed = saved === '1';
+      } catch (e) { /* 隐私模式下忽略 */ }
+      const items = g.subs ? g.subs.reduce((n, s) => n + s.items.length, 0) : g.items.length;
+      html += '<div class="nav-group' + (collapsed ? ' collapsed' : '') + '" data-key="' + key + '">' +
+        '<button class="nav-group-title" type="button">' +
+        '<span class="nav-arrow">' + (collapsed ? '▸' : '▾') + '</span>' +
+        '<span class="nav-group-name">' + esc(g.group) + '</span>' +
+        '<span class="nav-count">' + items + '</span></button>';
+      html += '<div class="nav-items">';
+      if (g.subs) {
+        g.subs.forEach(s => {
+          html += '<div class="nav-sub-title">' + esc(s.sub) + '</div>';
+          s.items.forEach(it => { html += navItemHtml(it); });
+        });
+      } else {
+        g.items.forEach(it => { html += navItemHtml(it); });
+      }
+      html += '</div></div>';
     });
     $('#nav').innerHTML = html;
+    // 折叠交互
+    $('#nav').querySelectorAll('.nav-group-title').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const grp = btn.closest('.nav-group');
+        const collapsed = grp.classList.toggle('collapsed');
+        btn.querySelector('.nav-arrow').textContent = collapsed ? '▸' : '▾';
+        try { localStorage.setItem(grp.dataset.key, collapsed ? '1' : '0'); } catch (e) {}
+      });
+    });
   }
 
   /* ---------- 打卡进度 ---------- */
