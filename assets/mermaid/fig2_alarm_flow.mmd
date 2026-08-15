@@ -1,0 +1,18 @@
+﻿sequenceDiagram
+    participant AV as AV子系统
+    participant Alg as 算法线程
+    participant Alarm as alarm_process
+    participant Proto as 协议层
+    participant Svr as 平台
+    AV->>Alg: 共享内存YUV帧(计数器+锁)
+    Alg->>Alg: ALG_Detect → 结果掩码 → ALG_eventVec
+    Alg->>Alarm: Alarm_SafetyEvent(module, event)
+    Alarm->>Alarm: 冷却过滤 → sn → 附件信息
+    Alarm->>AV: 0x0102 生成附件请求
+    AV-->>Alarm: 附件完成回通知(按sn匹配)
+    Alarm->>Proto: 事件打包(天迈0x0201/苏标)
+    Proto->>Svr: 上报 + 入重传队列
+    Svr-->>Proto: 0x8201应答 → 删重传任务
+    par 附件上传
+        Alarm->>Svr: 附件上传线程(HTTP/TCP)
+    end

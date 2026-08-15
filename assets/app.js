@@ -45,6 +45,37 @@
       { id: 'proj-market', title: '⑤ 市场问题分析' },
       { id: 'proj-ota',    title: '⑥ OTA 链路排查' }
     ]},
+    { group: '天迈主动安全 · 面试素材', items: [
+      { id: 'tm-00', title: '00 学习路线图' },
+      { id: 'tm-01', title: '01 项目全景与架构' },
+      { id: 'tm-02', title: '02 外部数据与三急' },
+      { id: 'tm-03', title: '03 参数与配置' },
+      { id: 'tm-04', title: '04 算法抽象层' },
+      { id: 'tm-05', title: '05 协议层' },
+      { id: 'tm-06', title: '06 报警链路与主控' },
+      { id: 'tm-07', title: '07 角色故事与贡献' },
+      { id: 'tm-08', title: '08 高频问答库' },
+      { id: 'tm-09', title: '09 优化亮点清单' },
+      { id: 'tm-10', title: '10 模拟演练素材' },
+      { id: 'tm-11', title: '11 CAN信号级重构' },
+      { id: 'tm-12', title: '12 速记卡片' },
+      { id: 'tm-13', title: '13 简历项目描述' },
+      { id: 'tm-14', title: '14 取舍复盘' },
+      { id: 'tm-15', title: '15 面试官评分卡' },
+      { id: 'tm-16', title: '16 面试必画图' },
+      { id: 'tm-17', title: '17 代码阅读路线图' },
+      { id: 'tm-18', title: '18 软问题深挖' },
+      { id: 'tm-19', title: '19 完整模拟卷' },
+      { id: 'tm-20', title: '20 外围知识扩展' },
+      { id: 'tm-21', title: '21 三急物理模型' },
+      { id: 'tm-22', title: '22 整车CAN方案' },
+      { id: 'tm-23', title: '23 冲刺行动卡' },
+      { id: 'tm-24', title: '24 进度追踪表' },
+      { id: 'tm-25', title: '25 追问脚本' },
+      { id: 'tm-26', title: '26 简历采集表' },
+      { id: 'tm-27', title: '27 最终交付总览' },
+      { id: 'tm-28', title: '28 示范面试答案' }
+    ]},
     { group: '追踪', items: [
       { id: '10-checkin', title: '每日打卡表' }
     ]},
@@ -80,7 +111,7 @@
     return 'h' + h.toString(36);
   }
 
-  /* ---------- Markdown 渲染（子集：标题/代码块/列表/复选框/引用/粗体/行内码） ---------- */
+  /* ---------- Markdown 渲染（子集：标题/代码块/表格/列表/复选框/引用/粗体/行内码） ---------- */
   function mdToHtml(md) {
     const lines = md.split(/\r?\n/);
     let html = '';
@@ -93,9 +124,15 @@
       if (fence) {
         if (!inCode) { inCode = true; codeLang = fence[1] || 'code'; codeBuf = []; }
         else {
-          html += '<div class="codeblock"><div class="codehead"><span>' + esc(codeLang) +
-            '</span><button class="copybtn" type="button">复制</button></div><pre><code>' +
-            codeBuf.map(esc).join('\n') + '</code></pre></div>';
+          if (codeLang === 'mermaid') {
+            // mermaid 图：保留源码，稍后用 CDN 渲染（离线时显示源码块）
+            html += '<div class="mermaid-src"><div class="codehead"><span>mermaid 源码（自动渲染，离线时显示源码）</span></div><pre><code>' +
+              codeBuf.map(esc).join('\n') + '</code></pre></div>';
+          } else {
+            html += '<div class="codeblock"><div class="codehead"><span>' + esc(codeLang) +
+              '</span><button class="copybtn" type="button">复制</button></div><pre><code>' +
+              codeBuf.map(esc).join('\n') + '</code></pre></div>';
+          }
           inCode = false;
         }
         i++; continue;
@@ -107,6 +144,30 @@
       if (/^##\s/.test(line))   { html += '<h2 id="sec-' + (secCount++) + '">' + inline(line.replace(/^##\s/, '')) + '</h2>'; i++; continue; }
       if (/^#\s/.test(line))    { html += '<h1 id="sec-' + (secCount++) + '">' + inline(line.replace(/^#\s/, '')) + '</h1>'; i++; continue; }
       if (/^---+\s*$/.test(line)) { html += '<hr>'; i++; continue; }
+
+      // 表格：| a | b |，第二行为分隔行（---）
+      if (/^\s*\|/.test(line)) {
+        const rows = [];
+        while (i < lines.length && /^\s*\|/.test(lines[i])) { rows.push(lines[i]); i++; }
+        if (rows.length >= 2 && /^\s*\|?[\s:|-]+\|?\s*$/.test(rows[1]) && rows[1].includes('-')) {
+          const header = rows[0], body = rows.slice(2);
+          const cells = r => r.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+          let t = '<div class="tablewrap"><table><thead><tr>';
+          cells(header).forEach(c => { t += '<th>' + inline(c) + '</th>'; });
+          t += '</tr></thead><tbody>';
+          body.forEach(r => {
+            t += '<tr>';
+            cells(r).forEach(c => { t += '<td>' + inline(c) + '</td>'; });
+            t += '</tr>';
+          });
+          t += '</tbody></table></div>';
+          html += t;
+        } else {
+          // 不是规范表格：按原样段落处理
+          html += '<p>' + inline(line) + '</p>'; i++;
+        }
+        continue;
+      }
 
       if (/^>\s?/.test(line)) {
         const q = [];
@@ -139,11 +200,46 @@
       i++;
     }
     if (inCode) { // 未闭合的代码块
-      html += '<div class="codeblock"><div class="codehead"><span>' + esc(codeLang) +
-        '</span><button class="copybtn" type="button">复制</button></div><pre><code>' +
-        codeBuf.map(esc).join('\n') + '</code></pre></div>';
+      if (codeLang === 'mermaid') {
+        html += '<div class="mermaid-src"><div class="codehead"><span>mermaid 源码（自动渲染，离线时显示源码）</span></div><pre><code>' +
+          codeBuf.map(esc).join('\n') + '</code></pre></div>';
+      } else {
+        html += '<div class="codeblock"><div class="codehead"><span>' + esc(codeLang) +
+          '</span><button class="copybtn" type="button">复制</button></div><pre><code>' +
+          codeBuf.map(esc).join('\n') + '</code></pre></div>';
+      }
     }
     return html;
+  }
+
+  /* ---------- Mermaid 渲染（懒加载 CDN，离线时保留源码块） ---------- */
+  let mermaidPromise = null;
+  function loadMermaid() {
+    if (window.mermaid) return Promise.resolve(window.mermaid);
+    if (mermaidPromise) return mermaidPromise;
+    mermaidPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js';
+      s.onload = () => { try { mermaid.initialize({ startOnLoad: false, securityLevel: 'loose' }); resolve(window.mermaid); } catch (e) { reject(e); } };
+      s.onerror = () => reject(new Error('mermaid CDN 加载失败'));
+      document.head.appendChild(s);
+    });
+    return mermaidPromise;
+  }
+  function renderMermaidBlocks(root) {
+    const blocks = root.querySelectorAll('.mermaid-src pre code');
+    if (!blocks.length) return;
+    loadMermaid().then(mermaid => {
+      blocks.forEach((code, idx) => {
+        const wrap = code.closest('.mermaid-src');
+        mermaid.render('mmd-' + idx + '-' + Date.now(), code.innerText).then(({ svg }) => {
+          const box = document.createElement('div');
+          box.className = 'mermaid-rendered';
+          box.innerHTML = svg;
+          wrap.replaceWith(box);
+        }).catch(() => { /* 渲染失败：保留源码块 */ });
+      });
+    }).catch(() => { /* 离线：保留源码块 */ });
   }
 
   /* ---------- 内容加载 ---------- */
@@ -176,6 +272,7 @@
       const md = await fetchMd(id);
       $('#content').innerHTML = mdToHtml(md);
       renderChecklist($('#content'));
+      renderMermaidBlocks($('#content'));
       buildToc();
       renderPagination();
       renderBreadcrumb();

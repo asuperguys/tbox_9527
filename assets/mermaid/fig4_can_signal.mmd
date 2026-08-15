@@ -1,0 +1,24 @@
+flowchart LR
+    subgraph Producer[收包线程]
+        RX[CAN报文<br/>仪表/六轴/雷达]
+    end
+    subgraph Core[CanSignalMgr]
+        REG[信号注册表]
+        SLOT[信号槽 O(1)索引]
+        TO[超时监控 500ms]
+        VER[version变化检测]
+        BATCH[批量更新 单锁]
+    end
+    subgraph Consumer[业务线程]
+        ALG[算法/三急/倒车]
+    end
+    subgraph Monitor[超时监控线程 1s(可选)]
+        CHK[checkTimeout 可选<br/>置无效+回调]
+    end
+    RX -->|逐项update| SLOT
+    REG --> SLOT
+    SLOT -->|getWithTime 带有效性| ALG
+    TO --> SLOT
+    VER --> SLOT
+    BATCH --> SLOT
+    SLOT --> CHK

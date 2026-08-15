@@ -221,6 +221,26 @@ code { font-family: "Cascadia Code", Consolas, "JetBrains Mono", monospace; }
 }
 .content blockquote p { margin: 4px 0; }
 
+/* 表格 */
+.tablewrap { overflow-x: auto; margin: 12px 0; border: 1px solid var(--border); border-radius: var(--radius); }
+.content table { border-collapse: collapse; width: 100%; font-size: 13.5px; background: var(--surface); min-width: 480px; }
+.content th, .content td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; vertical-align: top; line-height: 1.55; }
+.content th { background: var(--bg); font-weight: 600; white-space: nowrap; }
+.content tr:nth-child(even) td { background: var(--bg); }
+.content tr:hover td { background: var(--accent-soft); }
+@media (max-width: 960px) {
+  .content th, .content td { white-space: normal; font-size: 13px; }
+}
+
+/* Mermaid 图 */
+.mermaid-src { margin: 12px 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+.mermaid-src .codehead { background: var(--code-head); color: #9aa4b2; padding: 6px 12px; font-size: 12px; }
+.mermaid-src pre { margin: 0; overflow-x: auto; background: var(--code-bg); }
+.mermaid-src pre code { display: block; padding: 14px 16px; color: var(--code-text); font-size: 13px; line-height: 1.65; }
+.mermaid-rendered { margin: 12px 0; padding: 14px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; }
+html[data-theme="dark"] .mermaid-rendered { background: #fff; }
+.mermaid-rendered svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
 /* 复选框（打卡/自测） */
 .chk {
   display: flex; align-items: flex-start; gap: 9px;

@@ -1,0 +1,9 @@
+﻿flowchart TD
+    S[六轴ICM-20600] -->|域通信| P[SixAxisSensorDataParse<br/>无效过滤+×4换算]
+    P --> M[CanSignalMgr 信号槽<br/>acc/gyro×6, 500ms超时]
+    M -->|100ms节流+有效性| D[安装方向选轴]
+    D --> T[rapidTurnEvent 急转弯<br/>滑动均值滤温漂→阈值→左右]
+    D --> A[急加速/急减速<br/>平衡值预测→正波/负波]
+    T --> W[dealWarnEvent 车速分级]
+    A --> W
+    W --> U[协议0x66上报<br/>0x6601/0x6602/0x6604]

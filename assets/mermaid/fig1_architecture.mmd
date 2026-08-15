@@ -1,0 +1,25 @@
+﻿flowchart TB
+    subgraph Business[业务逻辑层]
+        SM[safety_main 主控/线程]
+        AP[alarm_process 报警/附件]
+    end
+    subgraph Capability[能力层]
+        P1[ti_safety_protocol 天迈协议]
+        P2[subiao_safety_protocol 苏标协议]
+        C1[safety_conf 参数注册表/SQLite/App JSON]
+        C2[external_data_center 仪表/三急/雷达]
+        C3[alg_activate 算法激活]
+    end
+    subgraph Alg[算法抽象层]
+        API[alg_abstract_api_st 统一接口]
+        ARC[虹软实现 alg_api_ARC]
+        MOTO[魔视实现 alg_api_MOTOVIS]
+    end
+    subgraph Adapter[适配层]
+        AD[adapter 共享内存/域通信/日志/工具]
+    end
+    SM --> AP
+    AP --> P1 & P2 & C1 & C2
+    SM --> API
+    API --> ARC & MOTO
+    API --> AD
