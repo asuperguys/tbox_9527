@@ -82,7 +82,10 @@
     ]}
   ];
   const FLAT = [];
-  NAV.forEach(g => g.items.forEach(it => FLAT.push(it)));
+  NAV.forEach(g => {
+    if (g.subs) g.subs.forEach(s => s.items.forEach(it => FLAT.push(it)));
+    else g.items.forEach(it => FLAT.push(it));
+  });
   const TITLES = {};
   FLAT.forEach(it => { TITLES[it.id] = it.title; });
 
